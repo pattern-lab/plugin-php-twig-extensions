@@ -32,8 +32,12 @@ class PatternLabListener extends \PatternLab\Listener {
     
     $instance = TwigUtil::getInstance();
     $instance->addExtension(new \Twig_Extensions_Extension_Text());
-    $instance->addExtension(new \Twig_Extensions_Extension_I18n());
-    $instance->addExtension(new \Twig_Extensions_Extension_Intl());
+    if (function_exists('gettext')) {
+      $instance->addExtension(new \Twig_Extensions_Extension_I18n());
+    }
+    if (class_exists("Collator")) {
+      $instance->addExtension(new \Twig_Extensions_Extension_Intl());
+    }
     $instance->addExtension(new \Twig_Extensions_Extension_Array());
     $instance->addExtension(new \Twig_Extensions_Extension_Date());
     TwigUtil::setInstance($instance);
